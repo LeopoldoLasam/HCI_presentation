@@ -469,6 +469,7 @@ function requestClaim(itemId) {
 }
 
 // CLAIMS DISPLAY
+// CLAIMS DISPLAY
 function updateClaims() {
     const claimList = document.getElementById("claimList");
 
@@ -480,6 +481,7 @@ function updateClaims() {
                     <p>Claimant: ${escapeHTML(claim.claimantName)}</p>
                     <p>Contact: ${escapeHTML(claim.contact)}</p>
                     <p>Proof: ${escapeHTML(claim.proof)}</p>
+
                     <div class="item-meta">
                         <span>◷ ${escapeHTML(claim.date)}</span>
                         <span>${(claim.matches || []).length} possible match(es)</span>
@@ -487,16 +489,95 @@ function updateClaims() {
                 </div>
 
                 <span class="item-status ${
-                    claim.status === "Matched" ? "found" : "lost"
+                    claim.status === "Approved" ? "found" :
+                    claim.status === "Rejected" ? "lost" : ""
                 }">
                     ${escapeHTML(claim.status)}
                 </span>
+
+                ${
+                    claim.status !== "Approved" &&
+                    claim.status !== "Rejected"
+                    ? `
+                        <div class="item-actions">
+                            <button onclick="approveClaim('${claim.id}')">
+                                Approve
+                            </button>
+
+                            <button onclick="rejectClaim('${claim.id}')">
+                                Reject
+                            </button>
+                        </div>
+                    `
+                    : ""
+                }
             </article>
         `).join("")
         : emptyState(
             "No claim requests",
             "Submitted claim requests will appear here."
         );
+}
+
+// APPROVE CLAIM
+function approveClaim(claimId) {
+    const claim = claims.find(
+        entry => String(entry.id) === String(claimId)
+    );
+
+    if (!claim) return;
+
+    const confirmed = confirm(
+        `Are you sure you want to approve ${claim.claimantName}'s claim?`
+    );
+
+    if (!confirmed) return;
+
+    claim.status = "Approved";
+
+    // Mark the claimed item as returned
+    const item = items.find(
+        entry => String(entry.id) === String(claim.itemId)
+    );
+
+    if (item) {
+        item.status = "Returned";
+    }
+
+    addHistory(
+        `Approved ${claim.claimantName}'s claim for ${claim.itemName}.`
+    );
+
+    saveData();
+    refreshSystem();
+
+    showToast("Claim request approved successfully.");
+}
+
+// REJECT CLAIM
+function rejectClaim(claimId) {
+    const claim = claims.find(
+        entry => String(entry.id) === String(claimId)
+    );
+
+    if (!claim) return;
+
+    const confirmed = confirm(
+        `Are you sure you want to reject ${claim.claimantName}'s claim?`
+    );
+
+    if (!confirmed) return;
+
+    claim.status = "Rejected";
+
+    addHistory(
+        `Rejected ${claim.claimantName}'s claim for ${claim.itemName}.`
+    );
+
+    saveData();
+    refreshSystem();
+
+    showToast("Claim request rejected.");
 }
 
 // DELETE ITEM
