@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f9fc">
+    <title>FindIt | Smart Lost and Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="#" aria-label="FindIt home">
+            <span class="brand-mark">F</span>
+            <span>Find<span>It</span><small>LOST & FOUND</small></span>
+        </a>
+
+        <div class="nav-caption">WORKSPACE</div>
+        <nav>
+            <button class="nav-link active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+            <button class="nav-link" data-page="browse"><span class="nav-icon">⌕</span>Browse Items</button>
+            <button class="nav-link" data-page="report"><span class="nav-icon">＋</span>Report Item</button>
+            <button class="nav-link" data-page="matches"><span class="nav-icon">⇄</span>Possible Matches</button>
+            <button class="nav-link" data-page="claims"><span class="nav-icon">▤</span>Claim Requests</button>
+        </nav>
+
+        <div class="sidebar-note">
+            <div class="note-icon">✦</div>
+            <strong>Lost something?</strong>
+            <p>Report it and let FindIt help you reconnect with it.</p>
+            <button class="note-button" data-go="report">Create a report <span>→</span></button>
+        </div>
+        <div class="sidebar-footer"><span class="online-dot"></span> FindIt workspace</div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="mobile-brand"><span class="brand-mark">F</span> FindIt</div>
+            <div class="page-heading">
+                <div class="eyebrow">SMART LOST AND FOUND SYSTEM</div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">Welcome back! Here's what's happening today.</p>
+            </div>
+            <div class="topbar-right">
+                <div class="system-status"><span class="online-dot"></span> System ready</div>
+                <div class="user-profile"><span class="avatar">A</span><span><strong>Administrator</strong><small>Workspace</small></span></div>
+            </div>
+        </header>
+
+        <section class="page active" id="dashboard">
+            <div class="welcome-panel">
+                <div><span class="welcome-tag">YOUR COMMUNITY, CONNECTED</span><h2>Find what matters.</h2><p>Keep track of lost and found belongings in one organized place.</p></div>
+                <button class="welcome-button" data-go="report">＋ Report an item</button>
+                <div class="welcome-decoration">F</div>
+            </div>
+
+            <div class="section-heading dashboard-section-heading"><div><h2>Overview</h2><p>A quick snapshot of all reported items.</p></div></div>
+            <div class="summary-grid">
+                <article class="summary-card"><div class="summary-top"><span>Total Reports</span><span class="stat-icon blue">▦</span></div><h2 id="totalReports">0</h2><small>All submitted reports</small></article>
+                <article class="summary-card"><div class="summary-top"><span>Lost Items</span><span class="stat-icon orange">⌕</span></div><h2 id="lostCount">0</h2><small>Items reported missing</small></article>
+                <article class="summary-card"><div class="summary-top"><span>Found Items</span><span class="stat-icon green">✓</span></div><h2 id="foundCount">0</h2><small>Items waiting to be claimed</small></article>
+                <article class="summary-card"><div class="summary-top"><span>Returned Items</span><span class="stat-icon violet">↗</span></div><h2 id="returnedCount">0</h2><small>Successfully returned</small></article>
+            </div>
+
+            <section class="content-section">
+                <div class="section-heading"><div><h2>Recent Reports</h2><p>The latest items added to FindIt.</p></div><button class="text-button" data-go="browse">View all items <span>→</span></button></div>
+                <div id="recentReports" class="item-list"></div>
+            </section>
+            <section class="content-section">
+                <div class="section-heading"><div><h2>Recent Activity</h2><p>Latest updates from your workspace.</p></div></div>
+                <div id="recentActivity" class="activity-list"></div>
+            </section>
+        </section>
+
+        <section class="page" id="browse">
+            <section class="content-section">
+                <div class="section-heading page-section-heading"><div><h2>Browse Items</h2><p>Search through reported lost and found belongings.</p></div><button class="primary-button" data-go="report">＋ Report item</button></div>
+                <div class="toolbar"><div class="search-wrap"><span>⌕</span><input id="searchItems" type="search" placeholder="Search by item, category, location..."></div><select id="itemFilter" aria-label="Filter items"><option value="all">All Items</option><option value="lost">Lost Items</option><option value="found">Found Items</option><option value="Returned">Returned Items</option></select></div>
+                <p id="browseCount" class="results-count">0 items found</p>
+                <div id="allItems" class="item-list browse-grid"></div>
+            </section>
+        </section>
+
+        <section class="page" id="report">
+            <section class="content-section form-layout">
+                <div class="form-intro"><span class="welcome-tag">HELP RECONNECT BELONGINGS</span><h2>Report an item</h2><p>Share a few details so others can identify and help return the item.</p><div class="form-tip"><span>✦</span><div><strong>Helpful tip</strong><p>Include clear details such as unique marks, color, brand, and where the item was last seen.</p></div></div></div>
+                <div class="form-section">
+                    <div class="form-card-heading"><div><h3>Item information</h3><p>Fields marked with * are required.</p></div><span class="step-label">NEW REPORT</span></div>
+                    <form id="reportForm">
+                        <label for="reportType">Report type <em>*</em></label>
+                        <select id="reportType" required><option value="lost">I lost an item</option><option value="found">I found an item</option></select>
+
+                        <label for="itemName">Item name <em>*</em></label><input id="itemName" required placeholder="e.g. Black wireless earbuds">
+                        <label for="category">Category <em>*</em></label><select id="category" required><option value="">Select a category</option><option>Electronics</option><option>Clothing</option><option>Accessories</option><option>Documents</option><option>Pets</option><option>Others</option></select>
+
+                        <label for="description">Description <em>*</em></label><textarea id="description" rows="4" required placeholder="Describe the item and any unique identifying details..."></textarea>
+                        <div class="form-grid"><div><label for="color">Color <em>*</em></label><input id="color" required placeholder="e.g. Black"></div><div><label for="brand">Brand</label><input id="brand" placeholder="e.g. Sony (optional)"></div></div>
+                        <div class="form-grid"><div><label for="location">Location <em>*</em></label><input id="location" required placeholder="Where was it lost or found?"></div><div><label for="itemDate">Date <em>*</em></label><input id="itemDate" type="date" required></div></div>
+                        <label for="contact">Contact information <em>*</em></label><input id="contact" required placeholder="Email address or phone number">
+                        <label for="itemImage">Item photo <span class="optional-label">OPTIONAL</span></label><input id="itemImage" type="file" accept="image/*"><p class="hint">Upload an image to help identify the item. Maximum file size: 5 MB.</p><div id="imagePreview" class="image-preview"></div>
+                        <div class="form-actions"><button class="primary-button submit-button" type="submit">Submit report <span>→</span></button><button class="reset-button" type="reset">Clear form</button></div>
+                    </form>
+                </div>
+            </section>
+        </section>
+
+        <section class="page" id="matches">
+            <section class="content-section"><div class="section-heading page-section-heading"><div><h2>Possible Matches</h2><p>FindIt compares lost and found reports to identify similar items.</p></div></div><div class="info-banner"><span>✦</span><p>Matches are suggestions based on item details. A similarity score does not confirm ownership.</p></div><div id="matchList" class="item-list"></div></section>
+        </section>
+
+        <section class="page" id="claims">
+            <section class="content-section"><div class="section-heading page-section-heading"><div><h2>Claim Requests</h2><p>Review claim submissions and their automatic matching results.</p></div></div><div id="claimList" class="item-list"></div></section>
+        </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="main.js"></script>
+</body>
+</html>
